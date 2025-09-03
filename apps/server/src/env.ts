@@ -1,38 +1,32 @@
-import * as v from 'valibot';
+import * as z from 'zod';
 
 const DEFAULT_SERVER_PORT = 3035;
 const DEFAULT_SERVER_HOST = 'localhost';
 
-const createPortSchema = ({ defaultPort }: { defaultPort: number }) =>
-  v.pipe(
-    v.optional(v.string(), `${defaultPort}`),
-    v.transform((s) => parseInt(s, 10)),
-    v.integer(),
-    v.minValue(0),
-    v.maxValue(65535),
-  );
-
-export const envSchema = v.object({
-  SERVER_PORT: createPortSchema({ defaultPort: DEFAULT_SERVER_PORT }),
-  SERVER_HOST: v.pipe(
-    v.optional(v.string(), DEFAULT_SERVER_HOST),
-    v.minLength(1),
-  ),
-  SERVER_AUTH_SECRET: v.pipe(v.string(), v.minLength(1)),
-  SERVER_POSTGRES_URL: v.string(),
+export const envSchema = z.object({
+  SERVER_PORT: z.coerce
+    .number()
+    .min(0)
+    .max(65535)
+    .optional()
+    .default(DEFAULT_SERVER_PORT),
+  SERVER_HOST: z.string().min(1).default(DEFAULT_SERVER_HOST),
+  SERVER_AUTH_SECRET: z.string().min(1),
+  SERVER_POSTGRES_URL: z.string(),
 
   // Backend URL, used to configure OpenAPI (Scalar)
-  PUBLIC_SERVER_URL: v.pipe(v.string(), v.url()),
-  PUBLIC_SERVER_API_PATH: v.optional(
-    v.custom<`/${string}`>(
-      (input) => typeof input === 'string' && input.startsWith('/'),
-      'API Path must start with "/" if provided.',
-    ),
-    '/api',
-  ),
+  PUBLIC_SERVER_URL: z.url(),
+  PUBLIC_SERVER_API_PATH: z
+    .optional(
+      z.custom<`/${string}`>(
+        (input) => typeof input === 'string' && input.startsWith('/'),
+        'API Path must start with "/" if provided.',
+      ),
+    )
+    .default('/api'),
 
   // Frontend URL, used to configure trusted origin (CORS)
-  PUBLIC_WEB_URL: v.pipe(v.string(), v.url()),
+  PUBLIC_WEB_URL: z.url(),
 });
 
-export const env = v.parse(envSchema, process.env);
+export const env = envSchema.parse(process.env);

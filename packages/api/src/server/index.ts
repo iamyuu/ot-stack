@@ -3,9 +3,9 @@ import { ValidationError } from '@orpc/contract';
 import { OpenAPIHandler } from '@orpc/openapi/fetch';
 import { OpenAPIReferencePlugin } from '@orpc/openapi/plugins';
 import { StrictGetMethodPlugin } from '@orpc/server/plugins';
-import { experimental_ValibotToJsonSchemaConverter as ValibotToJsonSchemaConverter } from '@orpc/valibot';
+import { ZodToJsonSchemaConverter } from '@orpc/zod';
 import urlJoin from 'url-join';
-import * as v from 'valibot';
+import * as z from 'zod';
 import type { AuthInstance } from '@repo/auth/server';
 import type { DatabaseInstance } from '@repo/db/client';
 import { createORPCContext } from './orpc';
@@ -30,7 +30,7 @@ export const createApi = ({
       new OpenAPIReferencePlugin({
         docsTitle: 'RT Stack | API Reference',
         docsProvider: 'scalar',
-        schemaConverters: [new ValibotToJsonSchemaConverter()],
+        schemaConverters: [new ZodToJsonSchemaConverter()],
         specGenerateOptions: {
           info: {
             title: 'RT Stack API',
@@ -47,14 +47,14 @@ export const createApi = ({
           error.code === 'BAD_REQUEST' &&
           error.cause instanceof ValidationError
         ) {
-          const valiIssues = error.cause.issues as [
-            v.BaseIssue<unknown>,
-            ...v.BaseIssue<unknown>[],
-          ];
-          console.error(v.flatten(valiIssues));
+          const zodError = new z.ZodError(
+            error.cause.issues as z.core.$ZodIssue[],
+          );
+
           throw new ORPCError('INPUT_VALIDATION_FAILED', {
             status: 422,
-            message: v.summarize(valiIssues),
+            message: z.prettifyError(zodError),
+            data: z.flattenError(zodError),
             cause: error.cause,
           });
         }

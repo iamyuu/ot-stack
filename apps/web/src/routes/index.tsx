@@ -1,16 +1,10 @@
-import {
-  ExternalLinkIcon,
-  Link2Icon,
-  MoonIcon,
-  SunIcon,
-} from '@radix-ui/react-icons';
+import { ExternalLinkIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import { Button } from '@repo/ui/components/button';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useTheme } from 'next-themes';
 import urlJoin from 'url-join';
-import { authClient } from '@/clients/authClient';
-import { env } from '@/env';
-import { postsLinkOptions } from '@/routes/_protected/posts/-validations/posts-link-options';
+import { authClient } from '~/clients/auth-client';
+import { env } from '~/env';
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
@@ -27,16 +21,6 @@ function RouteComponent() {
           <div className="flex flex-col mb-5 bg-elevated p-3 rounded-lg">
             <div>
               Welcome, <span className="font-bold">{session.user.name}</span>!
-            </div>
-            <div className="mt-3 flex gap-x-1.5">
-              Click{' '}
-              <Link
-                {...postsLinkOptions}
-                className="flex items-center gap-x-1 text-blue-500 underline"
-              >
-                here <Link2Icon className="mt-0.5" />
-              </Link>{' '}
-              to view your posts.
             </div>
 
             <div className="mt-3">

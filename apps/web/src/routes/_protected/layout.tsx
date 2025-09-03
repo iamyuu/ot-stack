@@ -1,6 +1,6 @@
 import { Navigate, Outlet, createFileRoute } from '@tanstack/react-router';
-import { authClient } from '@/clients/authClient';
-import Spinner from '@/routes/-components/common/spinner';
+import { authClient } from '~/clients/auth-client';
+import Spinner from '~/routes/-components/common/spinner';
 
 export const Route = createFileRoute('/_protected')({
   component: Layout,

@@ -1,10 +1,15 @@
 import { oc } from '@orpc/contract';
+import * as z from 'zod';
 import postContract from './posts';
 
 export const appContract = oc
   .errors({
     INPUT_VALIDATION_FAILED: {
       status: 422,
+      data: z.object({
+        formErrors: z.array(z.string()),
+        fieldErrors: z.record(z.string(), z.array(z.string()).optional()),
+      }),
     },
     UNAUTHORIZED: {
       status: 401,

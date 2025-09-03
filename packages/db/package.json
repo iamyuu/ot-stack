@@ -32,9 +32,9 @@
   "prettier": "@repo/prettier-config",
   "dependencies": {
     "drizzle-orm": "catalog:",
-    "drizzle-valibot": "catalog:",
+    "drizzle-zod": "catalog:default",
     "pg": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:default"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
@@ -45,8 +45,8 @@
     "dotenv-cli": "catalog:",
     "drizzle-kit": "catalog:",
     "eslint": "catalog:",
-    "shx": "catalog:",
     "prettier": "catalog:",
+    "shx": "catalog:",
     "typescript": "catalog:"
   }
 }

@@ -1,17 +1,4 @@
-<table>
-  <tr>
-    <td>
-      <a href="https://rtstack.nktnet.uk" target="_blank">
-        <img align="absmiddle" width="40" src="./apps/web/public/favicon.png">
-      </a>
-    </td>
-    <td>
-      <h1>
-        <a href="https://rtstack.nktnet.uk" target="_blank">RT Stack</a>
-      </h1>
-    </td>
-  </tr>
-</table>
+# ot-stack
 
 A modern & lightweight [turborepo](https://turbo.build/repo/docs) template for
 fullstack projects with modular components, shared configs, containerised
@@ -56,7 +43,7 @@ apps
   |   └─ hono (wrapper for api & auth)
 packages
   ├─ api
-  |   └─ orpc with valibot
+  |   └─ orpc with zod
   ├─ auth
   |   └─ better-auth
   ├─ db
@@ -72,35 +59,6 @@ tools
 ```
 
 View all catalog dependencies in [pnpm-workspace.yaml](pnpm-workspace.yaml).
-
-### Base Functionalities
-
-The following features are implemented out-of-the-box:
-
-- login/register (using [better-auth email/password](https://www.better-auth.com/docs/authentication/email-password)) credentials provider
-- themes (dark/light mode using [next-themes](github.com/pacocoursey/next-themes))
-- web/server integration ([orpc](https://orpc.unnoq.com/docs/getting-started) API example for creating/listing posts)
-
-You can visit the [live demo](https://rtstack.nktnet.uk) to see these features in action.
-
-### Inspirations & Goals
-
-Many aspects of the RT Stack were derived from the
-[t3-oss/create-t3-turbo](https://github.com/t3-oss/create-t3-turbo). However,
-there is a preference for:
-
-- [tanstack router](https://tanstack.com/router/latest) (web) + [hono](https://hono.dev) (server) instead of [nextjs](https://nextjs.org) (fullstack)
-- [better auth](https://www.better-auth.com) for authentication instead [auth.js (next auth)](https://authjs.dev)
-- [valibot](https://valibot.dev) for input validation instead of [zod](https://zod.dev)
-- [tanstack form](https://tanstack.com/form/latest) instead of [react-hook-form](https://react-hook-form.com)
-- using `.env` in each application/package instead of globally, as per [turborepo's recommendations](https://turbo.build/repo/docs/crafting-your-repository/using-environment-variables#best-practices)
-
-This project also aims to consistently adopt the latest releases of dependencies and tools. For example:
-
-- react v19
-- tailwindcss v4 & shadcn-ui (canary)
-- eslint v9
-- pnpm v10
 
 ## Quick Start
 
@@ -409,13 +367,7 @@ in [./packages/api/src/server/orpc.ts](./packages/api/src/server/orpc.ts)
 
 ### Environment Variables
 
-This template was made to follow the the recommendation of
-
-- @tyleralbee in [this turborepo's GitHub discussion](https://github.com/vercel/turborepo/discussions/9458#discussioncomment-11443969)
-- @cjkihl in [create-t3-turbo issue #397](https://github.com/t3-oss/create-t3-turbo/issues/397#issuecomment-1630028405)
-- turborepo official docs on [environment variables best practices](https://turbo.build/repo/docs/crafting-your-repository/using-environment-variables#best-practices)
-
-In using this template, it is recommended that
+It is recommended that
 
 1. each application has a local `.env` file instead of a global `.env` at the
    root of your repository
@@ -448,33 +400,3 @@ pnpm env:copy-example
 
 It is recommended that any new apps that uses environment variables follow the
 example script set in [apps/server/package.json](apps/server/package.json).
-
-<h3>Extensions to Existing Template</h3>
-<p>The table below demonstrates how you can build and extend upon the existing RT Stack template:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>Description</th>
-      <th>Branch Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>NextJS</td>
-      <td>Adds a <code>docs</code> application that uses NextJS and Fumadocs, along with the workspace <code>@repo/ui</code> package.</td>
-      <td><a href="https://github.com/nktnet1/rt-stack/tree/nextjs-fumadocs">nextjs-fumadocs</a></td>
-    </tr>
-    <tr>
-      <td>Multi-language support</td>
-      <td>Implements internationalisation support, e.g. switching between English and Vietnamese.</td>
-      <td><a href="https://github.com/nktnet1/rt-stack/tree/i18n">i18n</a></td>
-    </tr>
-    <tr>
-      <td>Better-auth Plugins</td>
-      <td>Demonstrates how to integrate better-auth plugins in a type-safe and CLI-compatible manner.</td>
-      <td><a href="https://github.com/nktnet1/rt-stack/tree/better-auth-admin-organization-plugins">better-auth-admin-organization-plugins</a></td>
-    </tr>
-  </tbody>
-</table>

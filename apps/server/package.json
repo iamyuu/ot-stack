@@ -21,7 +21,7 @@
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
     "hono": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:default"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

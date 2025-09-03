@@ -1,8 +1,7 @@
 import { Link } from '@tanstack/react-router';
-import type { AuthSession } from '@/clients/authClient';
-import NavContainer from '@/routes/-components/layout/nav/nav-container';
-import UserAvatar from '@/routes/-components/layout/nav/user-avatar';
-import { postsLinkOptions } from '@/routes/_protected/posts/-validations/posts-link-options';
+import type { AuthSession } from '~/clients/auth-client';
+import NavContainer from '~/routes/-components/layout/nav/nav-container';
+import UserAvatar from '~/routes/-components/layout/nav/user-avatar';
 
 const activeClassName = 'underline decoration-2 opacity-70';
 
@@ -17,14 +16,6 @@ export function Navbar({ session }: Readonly<{ session: AuthSession }>) {
         >
           Home
         </Link>
-        {session?.user ? (
-          <Link
-            {...postsLinkOptions}
-            activeProps={{ className: activeClassName }}
-          >
-            Posts
-          </Link>
-        ) : null}
       </div>
       {session?.user ? (
         <UserAvatar user={session.user} />

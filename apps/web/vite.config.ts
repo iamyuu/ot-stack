@@ -2,8 +2,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import tanstackRouter from '@tanstack/router-plugin/vite';
-import react from '@vitejs/plugin-react-swc';
-import * as v from 'valibot';
+import react from '@vitejs/plugin-react';
+import * as z from 'zod';
 import { defineConfig } from 'vite';
 
 /**
@@ -17,25 +17,26 @@ import { defineConfig } from 'vite';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const envSchema = v.object({
+const envSchema = z.object({
   /**
    * Since vite is only used during development, we can assume the structure
    * will resemble a URL such as: http://localhost:3035.
    * This will then be used to set the vite dev server's host and port.
    */
-  PUBLIC_WEB_URL: v.pipe(
-    v.optional(v.string(), 'http://localhost:3035'),
-    v.url(),
-  ),
+  PUBLIC_WEB_URL: z.url().optional().default('http://localhost:3035'),
 
   /**
    * Set this if you want to run or deploy your app at a base URL. This is
    * usually required for deploying a repository to Github/Gitlab pages.
    */
-  PUBLIC_BASE_PATH: v.pipe(v.optional(v.string(), '/'), v.startsWith('/')),
+  PUBLIC_BASE_PATH: z
+    .string()
+    .optional()
+    .default('/')
+    .refine((path) => path.startsWith('/')),
 });
 
-const env = v.parse(envSchema, process.env);
+const env = envSchema.parse(process.env);
 const webUrl = new URL(env.PUBLIC_WEB_URL);
 const host = webUrl.hostname;
 const port = parseInt(webUrl.port, 10);
@@ -43,8 +44,10 @@ const port = parseInt(webUrl.port, 10);
 export default defineConfig({
   plugins: [
     tanstackRouter({
-      routeToken: 'layout',
       autoCodeSplitting: true,
+      routeToken: 'layout',
+      routesDirectory: 'src/routes',
+      generatedRouteTree: 'src/generated/route.ts',
     }),
     tailwindcss(),
     react(),
@@ -83,7 +86,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './src'),
     },
   },
 });

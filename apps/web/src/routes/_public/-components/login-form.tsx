@@ -6,17 +6,14 @@ import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import * as v from 'valibot';
-import { authClient } from '@/clients/authClient';
-import FormFieldInfo from '@/routes/-components/common/form-field-info';
-import Spinner from '@/routes/-components/common/spinner';
+import * as z from 'zod';
+import { authClient } from '~/clients/auth-client';
+import FormFieldInfo from '~/routes/-components/common/form-field-info';
+import Spinner from '~/routes/-components/common/spinner';
 
-const FormSchema = v.object({
-  email: v.pipe(v.string(), v.email('Please enter a valid email address')),
-  password: v.pipe(
-    v.string(),
-    v.minLength(8, 'Password must be at least 8 characters'),
-  ),
+const FormSchema = z.object({
+  email: z.email('Please enter a valid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
 export default function LoginCredentialsForm() {

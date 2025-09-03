@@ -23,7 +23,7 @@
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
-    "@tanstack/router-devtools": "catalog:",
+    "@vitejs/plugin-react": "catalog:default",
     "dotenv-cli": "catalog:",
     "next-themes": "catalog:",
     "react": "catalog:",
@@ -31,7 +31,7 @@
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
     "url-join": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:default"
   },
   "prettier": "@repo/prettier-config",
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react-swc": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "shx": "catalog:",

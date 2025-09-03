@@ -28,11 +28,11 @@
     "@orpc/openapi-client": "catalog:",
     "@orpc/server": "catalog:",
     "@orpc/tanstack-query": "catalog:",
-    "@orpc/valibot": "catalog:",
+    "@orpc/zod": "catalog:default",
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
     "url-join": "catalog:",
-    "valibot": "catalog:"
+    "zod": "catalog:default"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
