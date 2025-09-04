@@ -10,19 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicLayoutRouteImport } from './routes/_public/layout'
-import { Route as ProtectedLayoutRouteImport } from './routes/_protected/layout'
+import { Route as adminLayoutRouteImport } from './routes/(admin)/layout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ProtectedPostsIndexRouteImport } from './routes/_protected/posts/index'
-import { Route as ProtectedPostsPostidIndexRouteImport } from './routes/_protected/posts/$postid/index'
+import { Route as adminDashboardRouteImport } from './routes/(admin)/dashboard'
 
 const PublicLayoutRoute = PublicLayoutRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedLayoutRoute = ProtectedLayoutRouteImport.update({
-  id: '/_protected',
+const adminLayoutRoute = adminLayoutRouteImport.update({
+  id: '/(admin)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -30,71 +28,52 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicRegisterRoute = PublicRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => PublicLayoutRoute,
-} as any)
 const PublicLoginRoute = PublicLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => PublicLayoutRoute,
 } as any)
-const ProtectedPostsIndexRoute = ProtectedPostsIndexRouteImport.update({
-  id: '/posts/',
-  path: '/posts/',
-  getParentRoute: () => ProtectedLayoutRoute,
+const adminDashboardRoute = adminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => adminLayoutRoute,
 } as any)
-const ProtectedPostsPostidIndexRoute =
-  ProtectedPostsPostidIndexRouteImport.update({
-    id: '/posts/$postid/',
-    path: '/posts/$postid/',
-    getParentRoute: () => ProtectedLayoutRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof adminLayoutRouteWithChildren
+  '/dashboard': typeof adminDashboardRoute
   '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
-  '/posts': typeof ProtectedPostsIndexRoute
-  '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof adminLayoutRouteWithChildren
+  '/dashboard': typeof adminDashboardRoute
   '/login': typeof PublicLoginRoute
-  '/register': typeof PublicRegisterRoute
-  '/posts': typeof ProtectedPostsIndexRoute
-  '/posts/$postid': typeof ProtectedPostsPostidIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_protected': typeof ProtectedLayoutRouteWithChildren
+  '/(admin)': typeof adminLayoutRouteWithChildren
   '/_public': typeof PublicLayoutRouteWithChildren
+  '/(admin)/dashboard': typeof adminDashboardRoute
   '/_public/login': typeof PublicLoginRoute
-  '/_public/register': typeof PublicRegisterRoute
-  '/_protected/posts/': typeof ProtectedPostsIndexRoute
-  '/_protected/posts/$postid/': typeof ProtectedPostsPostidIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/posts' | '/posts/$postid'
+  fullPaths: '/' | '/dashboard' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/posts' | '/posts/$postid'
+  to: '/' | '/dashboard' | '/login'
   id:
     | '__root__'
     | '/'
-    | '/_protected'
+    | '/(admin)'
     | '/_public'
+    | '/(admin)/dashboard'
     | '/_public/login'
-    | '/_public/register'
-    | '/_protected/posts/'
-    | '/_protected/posts/$postid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ProtectedLayoutRoute: typeof ProtectedLayoutRouteWithChildren
+  adminLayoutRoute: typeof adminLayoutRouteWithChildren
   PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
 }
 
@@ -107,11 +86,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected': {
-      id: '/_protected'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof ProtectedLayoutRouteImport
+    '/(admin)': {
+      id: '/(admin)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof adminLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -121,13 +100,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/register': {
-      id: '/_public/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof PublicRegisterRouteImport
-      parentRoute: typeof PublicLayoutRoute
-    }
     '/_public/login': {
       id: '/_public/login'
       path: '/login'
@@ -135,45 +107,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicLayoutRoute
     }
-    '/_protected/posts/': {
-      id: '/_protected/posts/'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof ProtectedPostsIndexRouteImport
-      parentRoute: typeof ProtectedLayoutRoute
-    }
-    '/_protected/posts/$postid/': {
-      id: '/_protected/posts/$postid/'
-      path: '/posts/$postid'
-      fullPath: '/posts/$postid'
-      preLoaderRoute: typeof ProtectedPostsPostidIndexRouteImport
-      parentRoute: typeof ProtectedLayoutRoute
+    '/(admin)/dashboard': {
+      id: '/(admin)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof adminDashboardRouteImport
+      parentRoute: typeof adminLayoutRoute
     }
   }
 }
 
-interface ProtectedLayoutRouteChildren {
-  ProtectedPostsIndexRoute: typeof ProtectedPostsIndexRoute
-  ProtectedPostsPostidIndexRoute: typeof ProtectedPostsPostidIndexRoute
+interface adminLayoutRouteChildren {
+  adminDashboardRoute: typeof adminDashboardRoute
 }
 
-const ProtectedLayoutRouteChildren: ProtectedLayoutRouteChildren = {
-  ProtectedPostsIndexRoute: ProtectedPostsIndexRoute,
-  ProtectedPostsPostidIndexRoute: ProtectedPostsPostidIndexRoute,
+const adminLayoutRouteChildren: adminLayoutRouteChildren = {
+  adminDashboardRoute: adminDashboardRoute,
 }
 
-const ProtectedLayoutRouteWithChildren = ProtectedLayoutRoute._addFileChildren(
-  ProtectedLayoutRouteChildren,
+const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
+  adminLayoutRouteChildren,
 )
 
 interface PublicLayoutRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
-  PublicRegisterRoute: typeof PublicRegisterRoute
 }
 
 const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
-  PublicRegisterRoute: PublicRegisterRoute,
 }
 
 const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
@@ -182,7 +143,7 @@ const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ProtectedLayoutRoute: ProtectedLayoutRouteWithChildren,
+  adminLayoutRoute: adminLayoutRouteWithChildren,
   PublicLayoutRoute: PublicLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport

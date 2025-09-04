@@ -47,7 +47,6 @@ export default defineConfig({
       autoCodeSplitting: true,
       routeToken: 'layout',
       routesDirectory: 'src/routes',
-      generatedRouteTree: 'src/generated/route.ts',
     }),
     tailwindcss(),
     react(),
@@ -76,7 +75,7 @@ export default defineConfig({
             const scopedPackageName = modulePath?.split('/')[1];
             const chunkName =
               scopedPackageName?.split('@')[
-                scopedPackageName.startsWith('@') ? 1 : 0
+              scopedPackageName.startsWith('@') ? 1 : 0
               ];
             return chunkName;
           }

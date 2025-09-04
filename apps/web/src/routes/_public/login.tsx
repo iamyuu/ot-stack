@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import LoginCredentialsForm from '~/routes/_public/-components/login-form';
 
 export const Route = createFileRoute('/_public/login')({
@@ -7,16 +7,9 @@ export const Route = createFileRoute('/_public/login')({
 
 function RouteComponent() {
   return (
-    <div className="p-2 md:p-6 flex flex-col items-center">
-      <div className="border p-4 md:p-8 w-full max-w-md rounded-lg bg-elevated">
+    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <div className="w-full max-w-sm">
         <LoginCredentialsForm />
-        <div className="mt-4 text-center">
-          {"Don't have an account? "}
-          <Link to="/register" className="underline">
-            Register
-          </Link>
-          !
-        </div>
       </div>
     </div>
   );
