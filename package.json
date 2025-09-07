@@ -25,6 +25,7 @@
   },
   "packageManager": "pnpm@10.15.1",
   "devDependencies": {
+    "lefthook": "catalog:",
     "turbo": "catalog:"
   },
   "engines": {

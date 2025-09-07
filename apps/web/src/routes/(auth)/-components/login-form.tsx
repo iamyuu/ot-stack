@@ -43,7 +43,7 @@ export default function LoginCredentialsForm() {
   });
 
   return (
-    <Card className='space-y-4'>
+    <Card className="space-y-4">
       <CardHeader className="text-center">
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -53,7 +53,7 @@ export default function LoginCredentialsForm() {
       <CardContent>
         <form.AppForm>
           <form
-            className='space-y-4'
+            className="space-y-4"
             onSubmit={(e) => {
               e.preventDefault();
               e.stopPropagation();

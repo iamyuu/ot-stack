@@ -1,0 +1,9 @@
+pre-commit:
+  jobs:
+    - name: format
+      stage_fixed: true
+      run: pnpm format:fix
+
+    - name: lint
+      stage_fixed: true
+      run: pnpm lint:fix
