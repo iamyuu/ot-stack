@@ -1,4 +1,3 @@
-import { Button } from '@repo/ui/components/button';
 import {
   Card,
   CardContent,
@@ -7,13 +6,11 @@ import {
   CardTitle,
 } from '@repo/ui/components/card';
 import { Input } from '@repo/ui/components/input';
-import { Label } from '@repo/ui/components/label';
-import { useForm } from '@tanstack/react-form';
 import { useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import * as z from 'zod';
 import { authClient } from '~/clients/auth-client';
-import FormFieldInfo from '~/components/common/form-field-info';
+import { useAppForm } from '~/components/common/form';
 
 const FormSchema = z.object({
   email: z.email('Please enter a valid email address'),
@@ -22,7 +19,7 @@ const FormSchema = z.object({
 
 export default function LoginCredentialsForm() {
   const navigate = useNavigate();
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       email: '',
       password: '',
@@ -46,7 +43,7 @@ export default function LoginCredentialsForm() {
   });
 
   return (
-    <Card>
+    <Card className='space-y-4'>
       <CardHeader className="text-center">
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -54,101 +51,58 @@ export default function LoginCredentialsForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-        >
-          <div className="grid gap-6">
-            <form.Field
+        <form.AppForm>
+          <form
+            className='space-y-4'
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              form.handleSubmit();
+            }}
+          >
+            <form.AppField
               name="email"
-              children={(field) => {
-                return (
-                  <div className="grid gap-3">
-                    <Label htmlFor="email">Email</Label>
+              children={(field) => (
+                <field.FormItem>
+                  <field.FormLabel>Email</field.FormLabel>
+                  <field.FormControl>
                     <Input
-                      id="email"
                       type="email"
                       placeholder="m@example.com"
-                      required
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
                     />
-                    <FormFieldInfo field={field} />
-                  </div>
-                );
-              }}
+                  </field.FormControl>
+                  <field.FormMessage />
+                </field.FormItem>
+              )}
             />
-          </div>
 
-          <div className="grid gap-3">
-            <form.Field
-              name="password"
+            <form.AppField
+              name="email"
               children={(field) => (
-                <>
-                  <Label htmlFor={field.name}>Password</Label>
-                  <div className="flex justify-end items-center relative w-full">
+                <field.FormItem>
+                  <field.FormLabel>Password</field.FormLabel>
+                  <field.FormControl>
                     <Input
-                      id={field.name}
                       type="password"
                       name={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
-                  </div>
-                  <FormFieldInfo field={field} />
-                </>
+                  </field.FormControl>
+                  <field.FormMessage />
+                </field.FormItem>
               )}
             />
-          </div>
 
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <Button
-                type="submit"
-                disabled={!canSubmit || isSubmitting}
-                className="w-full"
-              >
-                Log in
-              </Button>
-            )}
-          />
-        </form>
+            <form.Submission className="w-full">Log in</form.Submission>
+          </form>
+        </form.AppForm>
       </CardContent>
     </Card>
   );
-
-  // return (
-  //   <form
-  //     className="flex flex-col gap-6"
-
-  //   >
-  //     <div className="flex flex-col gap-6">
-  //       <div className="flex flex-col items-center gap-2">
-  //         <a
-  //           href="#"
-  //           className="flex flex-col items-center gap-2 font-medium"
-  //         >
-  //           {/* <div className="flex size-8 items-center justify-center rounded-md">
-  //               <GalleryVerticalEnd className="size-6" />
-  //             </div> */}
-  //           <span className="sr-only">Acme Inc.</span>
-  //         </a>
-  //         <h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
-  //       </div>
-  //       <div className="flex flex-col gap-4">
-  //         <div className="grid gap-3">
-
-  //         </div>
-
-  //         <div className="grid gap-3">
-
-  //         </div>
-
-  //       </div>
-  //     </div>
-  //   </form>
-  // );
 }
