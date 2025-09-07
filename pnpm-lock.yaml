@@ -147,6 +147,12 @@ catalogs:
     hono:
       specifier: ^4.9.6
       version: 4.9.6
+    kysely:
+      specifier: ^0.28.5
+      version: 0.28.5
+    lefthook:
+      specifier: ^1.12.3
+      version: 1.12.3
     next-themes:
       specifier: ^0.4.6
       version: 0.4.6
@@ -214,7 +220,7 @@ importers:
   .:
     devDependencies:
       lefthook:
-        specifier: 1.12.3
+        specifier: 'catalog:'
         version: 1.12.3
       turbo:
         specifier: 'catalog:'
@@ -469,8 +475,11 @@ importers:
       drizzle-zod:
         specifier: catalog:default
         version: 0.8.3(drizzle-orm@0.44.5(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3))(zod@4.1.5)
+      kysely:
+        specifier: catalog:default
+        version: 0.28.5
       pg:
-        specifier: 'catalog:'
+        specifier: catalog:default
         version: 8.16.3
       zod:
         specifier: catalog:default

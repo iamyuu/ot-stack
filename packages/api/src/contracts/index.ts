@@ -1,6 +1,6 @@
 import { oc } from '@orpc/contract';
 import * as z from 'zod';
-import postContract from './posts';
+import { inventoryContract } from './inventory';
 
 export const appContract = oc
   .errors({
@@ -9,6 +9,13 @@ export const appContract = oc
       data: z.object({
         formErrors: z.array(z.string()),
         fieldErrors: z.record(z.string(), z.array(z.string()).optional()),
+      }),
+    },
+    MISSING_ITEM: {
+      status: 404,
+      message: 'The requested item was not found.',
+      data: z.object({
+        id: z.string(),
       }),
     },
     UNAUTHORIZED: {
@@ -21,5 +28,5 @@ export const appContract = oc
     },
   })
   .router({
-    posts: postContract,
+    inventory: inventoryContract,
   });

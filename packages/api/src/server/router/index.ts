@@ -1,5 +1,5 @@
-import postRouter from './post';
+import { inventoryRouter } from './inventory';
 
 export const appRouter = {
-  posts: postRouter,
+  inventory: inventoryRouter,
 };

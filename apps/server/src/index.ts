@@ -11,13 +11,13 @@ import { env } from './env';
 
 const trustedOrigins = [env.PUBLIC_WEB_URL].map((url) => new URL(url).origin);
 
-const db = createDb({ databaseUrl: env.SERVER_POSTGRES_URL });
+const { db, pool } = createDb({ databaseUrl: env.SERVER_POSTGRES_URL });
 const auth = createAuth({
   webUrl: env.PUBLIC_WEB_URL,
   serverUrl: env.PUBLIC_SERVER_URL,
   apiPath: env.PUBLIC_SERVER_API_PATH,
   authSecret: env.SERVER_AUTH_SECRET,
-  db,
+  pool,
 });
 const api = createApi({
   auth,
@@ -87,8 +87,7 @@ const server = serve(
   },
   (info) => {
     const host = info.family === 'IPv6' ? `[${info.address}]` : info.address;
-    console.log(`
-Hono
+    console.log(`Hono
 - internal server url: http://${host}:${info.port}
 - external server url: ${env.PUBLIC_SERVER_URL}
 - public web url: ${env.PUBLIC_WEB_URL}

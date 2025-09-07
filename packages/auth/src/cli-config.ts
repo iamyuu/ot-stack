@@ -1,4 +1,4 @@
-import { createDb } from '@repo/db/client';
+import { createPool } from '@repo/db/client';
 import { betterAuth } from 'better-auth';
 import { getBaseOptions } from './server';
 
@@ -14,5 +14,5 @@ import { getBaseOptions } from './server';
  * - https://www.better-auth.com/docs/concepts/cli
  */
 export const auth = betterAuth({
-  ...getBaseOptions(createDb()),
+  ...getBaseOptions(createPool()),
 });

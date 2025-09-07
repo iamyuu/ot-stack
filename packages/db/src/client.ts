@@ -1,22 +1,38 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
-
-import * as schema from './schema';
+import { Kysely, PostgresDialect } from 'kysely';
+import { Pool } from 'pg';
+import type * as schema from './schema';
+import type { Kyselify } from 'drizzle-orm/kysely';
+import type { PgTableWithColumns } from 'drizzle-orm/pg-core/table';
 
 export interface DatabaseClientOptions {
   databaseUrl?: string;
   max?: number;
 }
 
-export type DatabaseInstance = NodePgDatabase<typeof schema>;
-
-export const createDb = (opts?: DatabaseClientOptions): DatabaseInstance => {
-  return drizzle({
-    schema,
-    casing: 'snake_case',
-    connection: {
-      connectionString: opts?.databaseUrl,
-      max: opts?.max,
-    },
-  });
+type Schema = typeof schema;
+type DatabaseSchema = {
+  [K in keyof Schema]: Schema[K] extends PgTableWithColumns<any>
+    ? Kyselify<Schema[K]>
+    : never;
 };
+
+export function createPool(options?: DatabaseClientOptions) {
+  return new Pool({
+    connectionString: options?.databaseUrl,
+    max: options?.max,
+  });
+}
+
+export function createDb(options?: DatabaseClientOptions) {
+  const pool = createPool(options);
+  const db = new Kysely<DatabaseSchema>({
+    dialect: new PostgresDialect({
+      pool,
+    }),
+  });
+
+  return { db, pool };
+}
+
+export type DatabaseInstance = ReturnType<typeof createDb>['db'];
+export type DatabaseConnection = ReturnType<typeof createPool>;

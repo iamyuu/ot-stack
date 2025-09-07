@@ -33,7 +33,8 @@
   "dependencies": {
     "drizzle-orm": "catalog:",
     "drizzle-zod": "catalog:default",
-    "pg": "catalog:",
+    "kysely": "catalog:default",
+    "pg": "catalog:default",
     "zod": "catalog:default"
   },
   "devDependencies": {
