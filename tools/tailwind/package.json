@@ -12,9 +12,10 @@
   },
   "prettier": "@repo/prettier-config",
   "dependencies": {
+    "@egoist/tailwindcss-icons": "catalog:default",
+    "@iconify-json/ph": "catalog:default",
     "eslint": "catalog:",
     "tailwindcss": "catalog:",
-    "tailwindcss-animate": "catalog:",
     "tw-animate-css": "catalog:default"
   },
   "devDependencies": {

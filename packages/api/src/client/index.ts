@@ -6,10 +6,17 @@ import urlJoin from 'url-join';
 import type {
   ContractRouterClient,
   InferContractRouterOutputs,
+  ORPCError,
 } from '@orpc/contract';
 import { appContract } from '../contracts';
 
-export { isDefinedError, safe } from '@orpc/client';
+export {
+  isORPCErrorJson as isAPIError,
+  isDefinedError,
+  safe,
+} from '@orpc/client';
+
+export type APIError<TData = unknown> = ORPCError<string, TData>;
 
 export interface APIClientOptions {
   serverUrl: string;

@@ -28,12 +28,12 @@ export const createApi = ({
     plugins: [
       new StrictGetMethodPlugin(),
       new OpenAPIReferencePlugin({
-        docsTitle: 'RT Stack | API Reference',
+        docsTitle: 'OT Stack | API Reference',
         docsProvider: 'scalar',
         schemaConverters: [new ZodToJsonSchemaConverter()],
         specGenerateOptions: {
           info: {
-            title: 'RT Stack API',
+            title: 'OT Stack API',
             version: '1.0.0',
           },
           servers: [{ url: urlJoin(serverUrl, apiPath) }],

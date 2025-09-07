@@ -9,16 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PublicLayoutRouteImport } from './routes/_public/layout'
 import { Route as adminLayoutRouteImport } from './routes/(admin)/layout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PublicLoginRouteImport } from './routes/_public/login'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as adminDashboardRouteImport } from './routes/(admin)/dashboard'
 
-const PublicLayoutRoute = PublicLayoutRouteImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const adminLayoutRoute = adminLayoutRouteImport.update({
   id: '/(admin)',
   getParentRoute: () => rootRouteImport,
@@ -28,10 +23,10 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicLoginRoute = PublicLoginRouteImport.update({
-  id: '/login',
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
   path: '/login',
-  getParentRoute: () => PublicLayoutRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const adminDashboardRoute = adminDashboardRouteImport.update({
   id: '/dashboard',
@@ -42,50 +37,36 @@ const adminDashboardRoute = adminDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof adminLayoutRouteWithChildren
   '/dashboard': typeof adminDashboardRoute
-  '/login': typeof PublicLoginRoute
+  '/login': typeof authLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof adminLayoutRouteWithChildren
   '/dashboard': typeof adminDashboardRoute
-  '/login': typeof PublicLoginRoute
+  '/login': typeof authLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(admin)': typeof adminLayoutRouteWithChildren
-  '/_public': typeof PublicLayoutRouteWithChildren
   '/(admin)/dashboard': typeof adminDashboardRoute
-  '/_public/login': typeof PublicLoginRoute
+  '/(auth)/login': typeof authLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/dashboard' | '/login'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/dashboard' | '/login'
-  id:
-    | '__root__'
-    | '/'
-    | '/(admin)'
-    | '/_public'
-    | '/(admin)/dashboard'
-    | '/_public/login'
+  id: '__root__' | '/' | '/(admin)' | '/(admin)/dashboard' | '/(auth)/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   adminLayoutRoute: typeof adminLayoutRouteWithChildren
-  PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/(admin)': {
       id: '/(admin)'
       path: '/'
@@ -100,12 +81,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/login': {
-      id: '/_public/login'
+    '/(auth)/login': {
+      id: '/(auth)/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof PublicLoginRouteImport
-      parentRoute: typeof PublicLayoutRoute
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(admin)/dashboard': {
       id: '/(admin)/dashboard'
@@ -129,22 +110,10 @@ const adminLayoutRouteWithChildren = adminLayoutRoute._addFileChildren(
   adminLayoutRouteChildren,
 )
 
-interface PublicLayoutRouteChildren {
-  PublicLoginRoute: typeof PublicLoginRoute
-}
-
-const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
-  PublicLoginRoute: PublicLoginRoute,
-}
-
-const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
-  PublicLayoutRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   adminLayoutRoute: adminLayoutRouteWithChildren,
-  PublicLayoutRoute: PublicLayoutRouteWithChildren,
+  authLoginRoute: authLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

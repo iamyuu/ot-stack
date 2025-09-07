@@ -1,6 +1,6 @@
 import '~/style.css';
+import { ThemeProvider } from '@repo/ui/theme-provider';
 import { RouterProvider } from '@tanstack/react-router';
-import { ThemeProvider } from 'next-themes';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createRouter } from '~/router';
@@ -19,13 +19,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        themes={['light', 'dark']}
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider>
         <RouterProvider router={router} />
       </ThemeProvider>
     </React.StrictMode>,

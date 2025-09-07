@@ -16,7 +16,6 @@
     "typecheck": "tsc --build"
   },
   "dependencies": {
-    "@radix-ui/react-icons": "catalog:",
     "@repo/auth": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tailwindcss/vite": "catalog:",

@@ -9,13 +9,17 @@
     "#*": "./src/*"
   },
   "exports": {
-    "./lib/*": {
-      "types": "./dist/src/lib/*.d.ts",
-      "default": "./src/lib/*.ts"
-    },
     "./components/*": {
       "types": "./dist/src/components/*.d.ts",
       "default": "./src/components/*.tsx"
+    },
+    "./theme-provider": {
+      "types": "./dist/src/theme-provider.d.ts",
+      "default": "./src/theme-provider.tsx"
+    },
+    "./utils": {
+      "types": "./dist/src/utils.d.ts",
+      "default": "./src/utils.ts"
     }
   },
   "scripts": {
@@ -30,17 +34,15 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "catalog:",
-    "@radix-ui/react-collapsible": "^1.1.12",
+    "@radix-ui/react-collapsible": "catalog:default",
     "@radix-ui/react-dialog": "catalog:",
     "@radix-ui/react-dropdown-menu": "catalog:",
-    "@radix-ui/react-icons": "catalog:",
     "@radix-ui/react-label": "catalog:",
-    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-separator": "catalog:default",
     "@radix-ui/react-slot": "catalog:",
     "@radix-ui/react-toast": "catalog:",
     "@radix-ui/react-tooltip": "catalog:",
     "class-variance-authority": "catalog:",
-    "lucide-react": "^0.542.0",
     "next-themes": "catalog:",
     "radix-ui": "catalog:",
     "sonner": "catalog:",
